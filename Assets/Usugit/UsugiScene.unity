@@ -611,7 +611,7 @@ SpriteRenderer:
   m_Size: {x: 9, y: 6.36}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &773673561
@@ -1306,7 +1306,7 @@ MonoBehaviour:
   - {fileID: 133388004}
   - {fileID: 647901427}
   - {fileID: 1111689270}
-  _time: 1
+  _time: 5
   _nameInput: {fileID: 2087993430}
   _myScore: {fileID: 922054878}
 --- !u!1 &1881228125

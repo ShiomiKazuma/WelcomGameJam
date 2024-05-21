@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Ranking : MonoBehaviour
 { 
     [SerializeField] List<RankingInfo> _ranking = new List<RankingInfo>();
-    [SerializeField] Text[] _rankingText = new Text[3];
+    [SerializeField] Text[] _rankingText;
     [SerializeField] float _time = 0;
     [SerializeField] InputField _nameInput = null;
     [SerializeField] Text _myScore = null;
@@ -21,7 +22,10 @@ public class Ranking : MonoBehaviour
         {
             _nameInput.gameObject.SetActive(true);
         }
-        LoadRanking();
+        
+        var tempRanking = RankingManager.LoadRanking();
+        if (tempRanking.Count != 0)
+            _ranking = RankingManager.LoadRanking();
         ShowRanking();
     }
     
@@ -50,25 +54,11 @@ public class Ranking : MonoBehaviour
     
     public void SetRanking()
     {
-        _ranking[_rankingIndex].Time = _time;
-        _ranking[_rankingIndex].Name = _nameInput.text;
+        _ranking.Insert(_rankingIndex, new RankingInfo() { Time = _time, Name = _nameInput.text});
+        _ranking.RemoveAt(_ranking.Count - 1);
         _nameInput.gameObject.SetActive(false);
         ShowRanking();
-        SaveRanking();
-    }
-    
-    public void SaveRanking()
-    {
-        var json = JsonUtility.ToJson(this);
-        PlayerPrefs.SetString("Ranking", json);
-        PlayerPrefs.Save();
-    }
-    
-    public void LoadRanking()
-    {
-        var json = PlayerPrefs.GetString("Ranking");
-        if (string.IsNullOrEmpty(json)) return;
-        JsonUtility.FromJsonOverwrite(json, this);
+        RankingManager.SaveRanking(_ranking);
     }
 }
 
@@ -77,4 +67,32 @@ public class RankingInfo
 {
     [SerializeField] public float Time = 0;
     [SerializeField] public string Name = "AAA";
+}
+
+public static class RankingManager
+{
+    private static string rankingKey = "ranking";
+
+    public static void SaveRanking(List<RankingInfo> rankings)
+    {
+        string json = JsonUtility.ToJson(new RankingList { Rankings = rankings });
+        PlayerPrefs.SetString(rankingKey, json);
+        PlayerPrefs.Save();
+    }
+
+    public static List<RankingInfo> LoadRanking()
+    {
+        string json = PlayerPrefs.GetString(rankingKey, string.Empty);
+        if (string.IsNullOrEmpty(json))
+        {
+            return new List<RankingInfo>();
+        }
+        return JsonUtility.FromJson<RankingList>(json).Rankings;
+    }
+}
+
+[System.Serializable]
+public class RankingList
+{
+    public List<RankingInfo> Rankings;
 }
