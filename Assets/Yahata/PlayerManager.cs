@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D playerRB;
     [SerializeField] private SpriteRenderer playerSpriteRenderer;
+    [SerializeField] private Image JumpChargeSlider;
+
     public PlayerState _playerState;
     public enum PlayerState
     {
@@ -18,9 +21,12 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private float wallJumpForce;
 
     [SerializeField] private float JumpPowerChargelimit;
-    [SerializeField] private float JumpPowerCharge;
-    [SerializeField] private float WetJumpPowerBuff;
+    private float JumpPowerCharge;
 
+    [SerializeField] private bool waterHitting;
+    [SerializeField] private float waterHittingTimer;
+    [SerializeField] private float WetBuffTime;
+    [SerializeField] private float WetJumpPowerBuff;
     [SerializeField] private float WetBuff;
     private float goAxis;
     private float horizontal;
@@ -29,8 +35,9 @@ public class PlayerManager : MonoBehaviour
 
     void Start()
     {
+        goAxis = 1;
         playerSpriteRenderer.sprite = flogSprite;
-        JumpPowerCharge = 1;
+        JumpPowerCharge = 0;
         WetBuff = WetJumpPowerBuff;
     }
 
@@ -55,28 +62,42 @@ public class PlayerManager : MonoBehaviour
                     Debug.Log("壁ジャンプ成功");
                 } else
                 {
-                    playerRB.AddForce(new Vector2(playerRB.velocity.x * goAxis * 100, 0));
-                    Debug.Log("壁ジャンプ失敗");
+                    playerRB.AddForce(new Vector2(-goAxis * 100, (flogBoundForce * (JumpPowerCharge + 0.5f)) * 0.2f));
+                    Debug.Log(flogBoundForce * collisionNormal.y * (JumpPowerCharge + 0.5f));
                 }
             } else
             {
-                playerRB.AddForce(new Vector2(flogBoundForce * collisionNormal.x, flogBoundForce * collisionNormal.y * JumpPowerCharge));
+                playerRB.AddForce(new Vector2(flogBoundForce * collisionNormal.x, flogBoundForce * collisionNormal.y * (JumpPowerCharge + 0.5f)));
             }
 
-            JumpPowerCharge = 0.5f;
+            JumpPowerCharge = 0;
+            JumpChargeSlider.fillAmount = 0;
         }
     }
 
-    public IEnumerator waterHit()
+    public void waterHit()
     {
-        _playerState = PlayerState.WetFlog;
-        WetBuff = 1;
+        waterHittingTimer = WetBuffTime;
+        StartCoroutine(waterHitBuff());
+    }
 
-        Debug.Log("waterHit作動");
-        yield return new WaitForSeconds(3);
+
+    private IEnumerator waterHitBuff()
+    {
+        if(!waterHitting)
+        {
+            waterHitting = true;
+            _playerState = PlayerState.WetFlog;
+            WetBuff = 1;
+
+        }
+
+        yield return new WaitUntil(() => waterHittingTimer <= 0 );
 
         _playerState = PlayerState.Flog;
         WetBuff = WetJumpPowerBuff;
+        waterHitting = false;
+        
     }
 
     void Update()
@@ -102,17 +123,24 @@ public class PlayerManager : MonoBehaviour
         {
             if(_playerState == PlayerState.Flog)
             {
-                JumpPowerCharge += Time.deltaTime * 2;
+                JumpPowerCharge += Time.deltaTime * 4;
             } else
             {
-                JumpPowerCharge += Time.deltaTime * 4;
+                JumpPowerCharge += Time.deltaTime * 6;
             }
+
+            JumpChargeSlider.fillAmount = JumpPowerCharge / JumpPowerChargelimit;
         }
 
         if(Input.GetKeyDown(KeyCode.M))
         {
-            StartCoroutine(waterHit());
-
+            waterHit();
+        }
+        if(waterHittingTimer > 0)
+        {
+            waterHittingTimer -= Time.deltaTime;
         }
     }
+
+
 }
