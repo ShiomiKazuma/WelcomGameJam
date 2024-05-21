@@ -64,12 +64,14 @@ public class Ranking : MonoBehaviour
         {   //テキストの移動開始地点の設定
             var rect = rankingText.GetComponent<RectTransform>();
             rect.position = new Vector3(rect.position.x, rect.position.y - 140, 0 );
+            rect.GetComponent<Text>().color = new Color(0, 0, 0, 0);
         }
 
         foreach (var rankingText in _rankingText)
         {   //テキストの移動
             var rect = rankingText.GetComponent<RectTransform>();
-            rect.DOMoveY(rect.position.y + 140, 1);
+            rect.DOMoveY(rect.position.y + 140, 1).SetLink(rect.gameObject).SetEase(Ease.OutBounce);
+            rankingText.DOFade(1, 1).SetLink(rankingText.gameObject);
             yield return new WaitForSeconds(1);
         }
         
@@ -88,6 +90,8 @@ public class Ranking : MonoBehaviour
             _rankingText[i].text = $"{i + 1}位 {_ranking[i].Time:F2}秒 {_ranking[i].Name}";
         }
         _myScore.text = $"あなたのタイム {_time:F2}秒";
+        _myScore.GetComponent<RectTransform>().DOScale(1f, 1).SetEase(Ease.OutBounce);
+        _myScore.GetComponent<RectTransform>().DOScale(1f, 1).SetEase(Ease.OutBounce);
     }
     
     public void SetRanking()
