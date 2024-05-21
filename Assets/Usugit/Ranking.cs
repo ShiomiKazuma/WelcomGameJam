@@ -15,7 +15,7 @@ public class Ranking : MonoBehaviour
             _rankingText[i].text = $"{i + 1}位 {_ranking[i].Name} {_ranking[i].Time}秒";
         }
     }
-    
+
     public void SaveScore(RankingInfo info)
     {
         for (int i = 0; i < _ranking.Length; i++)
@@ -27,6 +27,7 @@ public class Ranking : MonoBehaviour
                 info = temp;
             }
         }
+    }
 }
 
 public class RankingInfo
