@@ -174,8 +174,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48a64ea3728f18b439abbf04c84da167, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bgmAudioSource: {fileID: 0}
-  _seAudioSource: {fileID: 0}
+  _bgmAudioSource: {fileID: 6109631060573009626}
+  _seAudioSource: {fileID: 2439166375978151484}
   _bgmSoundDatas: []
   _seSoundDatas:
   - _se: 2
