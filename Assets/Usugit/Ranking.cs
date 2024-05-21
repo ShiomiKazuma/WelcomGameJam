@@ -3,9 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// ランキング処理がまとまったクラス。
+/// タイムの設定はSetScoreを呼ぶこと！
+/// </summary>
 public class Ranking : MonoBehaviour
 { 
     [SerializeField] List<RankingInfo> _ranking = new List<RankingInfo>();
@@ -21,24 +26,39 @@ public class Ranking : MonoBehaviour
     {
         _nameInput.gameObject.SetActive(false);
         _rankingObject.ToList().ForEach(x => x.SetActive(false));
+        var tempRanking = RankingManager.LoadRanking();
+        if (tempRanking.Count != 0)
+            _ranking = RankingManager.LoadRanking();
         IsRankin(_time);
         if (_isRanking)
         {
             _nameInput.gameObject.SetActive(true);
         }
         
-        var tempRanking = RankingManager.LoadRanking();
-        if (tempRanking.Count != 0)
-            _ranking = RankingManager.LoadRanking();
-        ShowRanking();
+        ShowRankingAsync();
+    }
+
+    /// <summary>
+    /// タイムをセットする
+    /// </summary>
+    /// <param name="time"></param>
+    public void SetScore(float time)
+    {
+        _time = time;
     }
     
+    /// <summary>
+    /// ランキングに入っているか判定
+    /// </summary>
+    /// <param name="time"></param>
     public void IsRankin(float time)
     {
         for (int i = 0; i < _ranking.Count; i++)
         {
             if (time < _ranking[i].Time)
             {
+                Debug.Log($"{time}:{_ranking[i].Time}");
+                Debug.Log("ランクインしました");
                 _isRanking = true;
                 _rankingIndex = i;
                 return;
@@ -46,7 +66,10 @@ public class Ranking : MonoBehaviour
         }
     }
 
-    public void ShowRanking()
+    /// <summary>
+    /// 非同期でランキングを表示。最初の表示でのみ使う
+    /// </summary>
+    public void ShowRankingAsync()
     {
         _ranking.Sort((a, b) => a.Time.CompareTo(b.Time));
         for (int i = 0; i < _ranking.Count; i++)
@@ -82,6 +105,9 @@ public class Ranking : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// ランキングを即座に表示。プレイヤーのスコアがランキングに入った時に使う
+    /// </summary>
     void ShowRankingInstantly()
     {
         _ranking.Sort((a, b) => a.Time.CompareTo(b.Time));
@@ -96,7 +122,7 @@ public class Ranking : MonoBehaviour
     
     public void SetRanking()
     {
-        _ranking.Insert(_rankingIndex, new RankingInfo() { Time = _time, Name = _nameInput.text});
+        _ranking.Insert(_rankingIndex, new RankingInfo() { Time = _time, Name = _nameInput.text.Truncate(5)});
         _ranking.RemoveAt(_ranking.Count - 1);
         _nameInput.gameObject.SetActive(false);
         ShowRankingInstantly();

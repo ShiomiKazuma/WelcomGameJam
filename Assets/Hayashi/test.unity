@@ -181,11 +181,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 229ce7d35177d1542951471693a14156, type: 3}
     m_FontSize: 25
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 2
+    m_MinSize: 0
     m_MaxSize: 50
     m_Alignment: 0
     m_AlignByGeometry: 0
@@ -461,21 +461,18 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2019989423}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &5058418302248467806
+--- !u!1001 &2019989422
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1705160126}
     m_Modifications:
-    - target: {fileID: 1362158654374934350, guid: d0f38542c4520dc4bbec7deb2ab2a891, type: 3}
-      propertyPath: timertext
-      value: 
-      objectReference: {fileID: 391164899}
     - target: {fileID: 5853046028781785254, guid: d0f38542c4520dc4bbec7deb2ab2a891, type: 3}
       propertyPath: m_Name
       value: time
@@ -525,11 +522,15 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0f38542c4520dc4bbec7deb2ab2a891, type: 3}
+--- !u!4 &2019989423 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7603330464967759077, guid: d0f38542c4520dc4bbec7deb2ab2a891, type: 3}
+  m_PrefabInstance: {fileID: 2019989422}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1705160126}
-  - {fileID: 5058418302248467806}
   - {fileID: 1506566926}
   - {fileID: 828363522}
