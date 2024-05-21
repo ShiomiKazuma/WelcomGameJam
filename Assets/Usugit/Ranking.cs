@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -121,7 +122,7 @@ public class Ranking : MonoBehaviour
     
     public void SetRanking()
     {
-        _ranking.Insert(_rankingIndex, new RankingInfo() { Time = _time, Name = _nameInput.text});
+        _ranking.Insert(_rankingIndex, new RankingInfo() { Time = _time, Name = _nameInput.text.Truncate(5)});
         _ranking.RemoveAt(_ranking.Count - 1);
         _nameInput.gameObject.SetActive(false);
         ShowRankingInstantly();
