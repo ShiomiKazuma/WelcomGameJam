@@ -52,8 +52,8 @@ public class BGMSoundData
     {
         //‚±‚±‚Ì•”•ª‚ªƒ‰ƒxƒ‹‚É‚È‚é
         Title,
-        Dungeon,
-
+        Ingame,
+        Result
     }
 
     public BGM _bgm;
@@ -67,9 +67,9 @@ public class SESoundData
     public enum SE
     {
         //‚±‚±‚Ì•”•ª‚ªƒ‰ƒxƒ‹‚É‚È‚é
-        Attack,
         Damage,
-
+        Buttom,
+        Jump
     }
 
     public SE _se;
