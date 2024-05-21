@@ -67,7 +67,7 @@ public class SESoundData
     public enum SE
     {
         //‚±‚±‚Ì•”•ª‚ªƒ‰ƒxƒ‹‚É‚È‚é
-        Damage,
+        Rain,
         Buttom,
         Jump
     }
