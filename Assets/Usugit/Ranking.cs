@@ -1,37 +1,64 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Ranking : MonoBehaviour
 { 
-    RankingInfo[] _ranking = new RankingInfo[3];
-    Text[] _rankingText = new Text[3];
+    [SerializeField] List<RankingInfo> _ranking = new List<RankingInfo>();
+    [SerializeField] Text[] _rankingText = new Text[3];
+    [SerializeField] float _time = 0;
+    [SerializeField] InputField _nameInput = null;
+    [SerializeField] Text _myScore = null;
+    bool _isRanking = false;
+    int _rankingIndex = 0;
 
-    public void ShowRanking()
+    private void Start()
     {
-        for (int i = 0; i < _ranking.Length; i++)
+        _nameInput.gameObject.SetActive(false);
+        IsRankin(_time);
+        if (_isRanking)
         {
-            _rankingText[i].text = $"{i + 1}位 {_ranking[i].Name} {_ranking[i].Time}秒";
+            _nameInput.gameObject.SetActive(true);
         }
+        ShowRanking();
     }
-
-    public void SaveScore(RankingInfo info)
+    
+    public void IsRankin(float time)
     {
-        for (int i = 0; i < _ranking.Length; i++)
+        for (int i = 0; i < _ranking.Count; i++)
         {
-            if (_ranking[i].Time > info.Time)
+            if (time < _ranking[i].Time)
             {
-                RankingInfo temp = _ranking[i];
-                _ranking[i] = info;
-                info = temp;
+                _isRanking = true;
+                _rankingIndex = i;
+                return;
             }
         }
     }
+
+    public void ShowRanking()
+    {
+        _ranking.Sort((a, b) => a.Time.CompareTo(b.Time));
+        for (int i = 0; i < _ranking.Count; i++)
+        {
+            _rankingText[i].text = $"{i + 1}位 {_ranking[i].Time:F2}秒 {_ranking[i].Name}";
+        }
+        _myScore.text = $"あなたのタイム {_time:F2}秒";
+    }
+    
+    public void SetRanking()
+    {
+        _ranking[_rankingIndex].Time = _time;
+        _ranking[_rankingIndex].Name = _nameInput.text;
+        _nameInput.gameObject.SetActive(false);
+        ShowRanking();
+    }
 }
 
+[Serializable]
 public class RankingInfo
 {
-    public int Time { get; set; }
-    public string Name { get; set; }
+    [SerializeField] public float Time = 0;
+    [SerializeField] public string Name = "AAA";
 }
