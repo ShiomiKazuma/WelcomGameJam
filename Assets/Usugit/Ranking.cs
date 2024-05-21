@@ -21,6 +21,7 @@ public class Ranking : MonoBehaviour
         {
             _nameInput.gameObject.SetActive(true);
         }
+        LoadRanking();
         ShowRanking();
     }
     
@@ -53,6 +54,21 @@ public class Ranking : MonoBehaviour
         _ranking[_rankingIndex].Name = _nameInput.text;
         _nameInput.gameObject.SetActive(false);
         ShowRanking();
+        SaveRanking();
+    }
+    
+    public void SaveRanking()
+    {
+        var json = JsonUtility.ToJson(this);
+        PlayerPrefs.SetString("Ranking", json);
+        PlayerPrefs.Save();
+    }
+    
+    public void LoadRanking()
+    {
+        var json = PlayerPrefs.GetString("Ranking");
+        if (string.IsNullOrEmpty(json)) return;
+        JsonUtility.FromJsonOverwrite(json, this);
     }
 }
 
