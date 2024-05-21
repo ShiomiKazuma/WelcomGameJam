@@ -5,8 +5,12 @@ using UnityEngine;
 public class ResponManager : MonoBehaviour
 {
     [SerializeField] List<Transform> _respon = new List<Transform>();
-    int _responNum = 0;
+    int _responNum;
 
+    private void Start()
+    {
+        _responNum = 0;
+    }
     public void ResponChange()
     {
         _responNum++;
