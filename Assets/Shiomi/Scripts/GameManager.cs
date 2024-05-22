@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GameManager : SingletonBase<GameManager>
 {
-    public static float _time;
+    public float Timer;
     bool IsStart = false;
     [SerializeField] private string _startSceneName;
     [SerializeField] private string _resultSceneName;
@@ -19,7 +19,7 @@ public class GameManager : SingletonBase<GameManager>
     {
         if(IsStart)
         {
-            _time += Time.deltaTime;
+            Timer += Time.deltaTime;
         }
     }
 
@@ -55,7 +55,7 @@ public class GameManager : SingletonBase<GameManager>
     /// </summary>
     public void StartScene()
     {
-        _time = 0;
+        Timer = 0;
         var sceneManager = GameObject.Find("SceneManager").GetComponent<SceneChanager>();
         sceneManager.SceneChange(_startSceneName);
     }
