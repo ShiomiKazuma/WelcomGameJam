@@ -8,6 +8,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private Rigidbody2D playerRB;
     [SerializeField] private SpriteRenderer playerSpriteRenderer;
     [SerializeField] private Image JumpChargeSlider;
+    [SerializeField] private Image ArrowImage;
 
     public PlayerState _playerState;
     public enum PlayerState
@@ -32,6 +33,8 @@ public class PlayerManager : MonoBehaviour
     private float horizontal;
 
     [SerializeField] private Sprite flogSprite;
+    [SerializeField] private Sprite ArrowRightSprite;
+    [SerializeField] private Sprite ArrowLeftSprite;
 
     void Start()
     {
@@ -57,7 +60,7 @@ public class PlayerManager : MonoBehaviour
             {
                 if (!(collisionNormal.x > 0 && goAxis < 0) && !(collisionNormal.x < 0 && goAxis > 0))
                 {
-                    playerRB.AddForce(new Vector2(flogBoundForce * collisionNormal.x, flogBoundForce * wallJumpForce));
+                    playerRB.AddForce(new Vector2(flogBoundForce * collisionNormal.x, flogBoundForce * wallJumpForce * (JumpPowerCharge + 0.5f)));
 
                     Debug.Log("•ÇƒWƒƒƒ“ƒv¬Œ÷");
                 } else
@@ -96,8 +99,7 @@ public class PlayerManager : MonoBehaviour
 
         _playerState = PlayerState.Flog;
         WetBuff = WetJumpPowerBuff;
-        waterHitting = false;
-        
+        waterHitting = false;        
     }
 
     void Update()
@@ -111,9 +113,11 @@ public class PlayerManager : MonoBehaviour
             if (horizontal > 0)
             {
                 playerSpriteRenderer.flipX = true;
+                ArrowImage.sprite = ArrowRightSprite;
             } else if( horizontal < 0)
             {
                 playerSpriteRenderer.flipX = false;
+                ArrowImage.sprite = ArrowLeftSprite;
             }
 
             goAxis = horizontal;
