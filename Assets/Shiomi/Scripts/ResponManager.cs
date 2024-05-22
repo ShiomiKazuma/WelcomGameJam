@@ -16,8 +16,9 @@ public class ResponManager : MonoBehaviour
         _responNum++;
     }
 
-    public Transform Respon()
+    public void Respon()
     {
-        return _respon[_responNum];
+        var player = GameObject.FindWithTag("Player");
+        player.transform.position = _respon[_responNum].transform.position;
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 public class GameManager : SingletonBase<GameManager>
 {
     public float Timer;
-    bool IsStart = false;
+    public bool IsStart = false;
     [SerializeField] private string _startSceneName;
     [SerializeField] private string _resultSceneName;
     [SerializeField] private string _ingameSceneName;
@@ -28,6 +28,7 @@ public class GameManager : SingletonBase<GameManager>
     /// </summary>
     public void IngameScene()
     {
+        Timer = 0;
         var sceneManager = GameObject.Find("SceneManager").GetComponent<SceneChanager>();
         sceneManager.SceneChange(_ingameSceneName);
     }
@@ -58,5 +59,11 @@ public class GameManager : SingletonBase<GameManager>
         Timer = 0;
         var sceneManager = GameObject.Find("SceneManager").GetComponent<SceneChanager>();
         sceneManager.SceneChange(_startSceneName);
+    }
+
+    public void RankingUpdate()
+    {
+        var rank = GameObject.Find("Rank").GetComponent<Ranking>();
+        rank.SetScore(Timer);
     }
 }

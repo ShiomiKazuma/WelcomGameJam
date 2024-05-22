@@ -176,17 +176,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bgmAudioSource: {fileID: 6109631060573009626}
   _seAudioSource: {fileID: 2439166375978151484}
-  _bgmSoundDatas: []
+  _bgmSoundDatas:
+  - _bgm: 0
+    _audioClip: {fileID: 8300000, guid: 56b9aabbfda467640a0cd5d104d3d1e9, type: 3}
+    _volume: 1
+  - _bgm: 1
+    _audioClip: {fileID: 8300000, guid: 4beac4cc3b7225748a8da8d400e4ea09, type: 3}
+    _volume: 1
+  - _bgm: 2
+    _audioClip: {fileID: 8300000, guid: b5d59e44a01604e4291a481b7dd84624, type: 3}
+    _volume: 1
   _seSoundDatas:
   - _se: 2
     _audioClip: {fileID: 8300000, guid: 4447f7047101f4940afbe882d88e90fe, type: 3}
-    _volume: 0.204
+    _volume: 1
   - _se: 0
     _audioClip: {fileID: 8300000, guid: 66befdadaeb8afd4fa48c187b455d78d, type: 3}
-    _volume: 0.204
-  _masterVolume: 1
-  _bgmMasterVolume: 1
-  _seMasterVolume: 1
+    _volume: 1
+  - _se: 1
+    _audioClip: {fileID: 8300000, guid: 6ee73bcfd718bf340a21cdbbd33a2807, type: 3}
+    _volume: 1
+  _masterVolume: 4.8
+  _bgmMasterVolume: 1.41
+  _seMasterVolume: 5.83
 --- !u!1 &3886924965872972740
 GameObject:
   m_ObjectHideFlags: 0

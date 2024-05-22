@@ -11,12 +11,12 @@ public class Rain : MonoBehaviour
             GameObject player = collision.gameObject;
             SoundManager._instance.PlaySE(SESoundData.SE.Rain);
             // バフ処理
-            
+            var manager = collision.gameObject.GetComponent<SoundManager>();
             Destroy(this.gameObject);
         }
         else
         {
-            Destroy(collision.gameObject);
+            Destroy(this.gameObject);
         }
     }
 }
