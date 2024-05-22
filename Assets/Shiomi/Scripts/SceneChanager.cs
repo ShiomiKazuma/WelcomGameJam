@@ -29,6 +29,6 @@ public class SceneChanager : MonoBehaviour
     public void SceneChange(string sceneName)
     {
         _panel.gameObject.SetActive(true);
-        _panel.DOFade(1, _time).OnComplete(() => SceneManager.LoadScene(sceneName));
+        _panel.DOFade(1, _time).OnComplete(() => SceneManager.LoadScene(sceneName)).SetLink(this.gameObject);
     }
 }
